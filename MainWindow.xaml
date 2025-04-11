@@ -7,11 +7,27 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800"
         Loaded="Window_Loaded">
+    <Window.Resources>
+        <local:RectConverter x:Key="RectConverter" />
+    </Window.Resources>
+
     <Grid>
         <MediaElement x:Name="BackgroundVideo"
                       Stretch="Fill" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" 
                       LoadedBehavior="Manual"
                       UnloadedBehavior="Stop"
-                      MediaEnded="BackgroundVideo_MediaEnded"/>
+                      MediaEnded="BackgroundVideo_MediaEnded">
+
+            <MediaElement.Clip>
+                <RectangleGeometry RadiusX="30" RadiusY="30">
+                    <RectangleGeometry.Rect>
+                        <MultiBinding Converter="{StaticResource RectConverter}">
+                            <Binding ElementName="BackgroundVideo" Path="ActualWidth"/>
+                            <Binding ElementName="BackgroundVideo" Path="ActualHeight"/>
+                        </MultiBinding>
+                    </RectangleGeometry.Rect>
+                </RectangleGeometry>
+            </MediaElement.Clip>
+        </MediaElement>
     </Grid>
 </Window>
